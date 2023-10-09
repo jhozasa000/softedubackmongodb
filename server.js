@@ -26,4 +26,7 @@ app.use('/login',loginRouter)
 const anunciosRouter = require('./routes/anuncios')
 app.use('/anuncios',anunciosRouter)
 
+const usuariosRouter = require('./routes/usuarios')
+app.use('/usuarios',usuariosRouter)
+
 app.listen(port, () => console.log('Puerto utilizado' ,port))
