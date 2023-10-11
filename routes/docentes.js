@@ -69,6 +69,11 @@ router.get('/select',async  function (req, res) {
           foreignField:'_id',
           as:'fromProfession'
       }
+  },
+  {
+    $match:{
+        $and:[{"state" : 1}]
+    }
   }
  ] ).toArray();
 

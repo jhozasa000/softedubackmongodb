@@ -41,4 +41,7 @@ app.use('/docentes',docentesRouter)
 const profesionRouter = require('./routes/profesion')
 app.use('/profesion',profesionRouter)
 
+const gradosRouter = require('./routes/grados')
+app.use('/grados',gradosRouter)
+
 app.listen(port, () => console.log('Puerto utilizado' ,port))
