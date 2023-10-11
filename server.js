@@ -35,4 +35,10 @@ app.use('/calendario',calendarioRouter)
 const jornadaRouter = require('./routes/jornada')
 app.use('/jornada',jornadaRouter)
 
+const docentesRouter = require('./routes/docentes')
+app.use('/docentes',docentesRouter)
+
+const profesionRouter = require('./routes/profesion')
+app.use('/profesion',profesionRouter)
+
 app.listen(port, () => console.log('Puerto utilizado' ,port))
