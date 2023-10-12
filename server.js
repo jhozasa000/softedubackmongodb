@@ -44,4 +44,10 @@ app.use('/profesion',profesionRouter)
 const gradosRouter = require('./routes/grados')
 app.use('/grados',gradosRouter)
 
+const materiasRouter = require('./routes/materias')
+app.use('/materias',materiasRouter)
+
+const materiasrelacionRouter = require('./routes/materiasrelacion')
+app.use('/materiasrelacion',materiasrelacionRouter)
+
 app.listen(port, () => console.log('Puerto utilizado' ,port))
