@@ -50,4 +50,13 @@ app.use('/materias',materiasRouter)
 const materiasrelacionRouter = require('./routes/materiasrelacion')
 app.use('/materiasrelacion',materiasrelacionRouter)
 
+const estudiantesRouter = require('./routes/estudiantes')
+app.use('/estudiantes',estudiantesRouter)
+
+const estudiantesrelacionRouter = require('./routes/estudiantesrelacion')
+app.use('/estudiantesrelacion',estudiantesrelacionRouter)
+
+const tipoidentificacionRouter = require('./routes/tipoidentificacion')
+app.use('/tipoidentificacion',tipoidentificacionRouter)
+
 app.listen(port, () => console.log('Puerto utilizado' ,port))
