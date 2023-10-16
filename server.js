@@ -59,4 +59,10 @@ app.use('/estudiantesrelacion',estudiantesrelacionRouter)
 const tipoidentificacionRouter = require('./routes/tipoidentificacion')
 app.use('/tipoidentificacion',tipoidentificacionRouter)
 
+const notasRouter = require('./routes/notas')
+app.use('/notas',notasRouter)
+
+const reportesRouter = require('./routes/reportes')
+app.use('/reportes',reportesRouter)
+
 app.listen(port, () => console.log('Puerto utilizado' ,port))

@@ -36,7 +36,10 @@ router.post('/select',async function (req, res) {
 
 //  enrutamiento capturar materias
 router.get('/select',async function (req, res) {
-  const materias = await pool.db().collection('materias').find({state:1}).toArray();
+  const materias = await pool.db().collection('materias').aggregate([
+    { $match: {state:1} },
+    { $project: {_id:0, id: "$_id", name:1} }
+   ]).toArray();
   res.send(JSON.stringify(materias));
 });
 

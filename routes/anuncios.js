@@ -24,7 +24,11 @@ router.post('/insert',async function (req, res) {
 
 //  enrutamiento capturar anuncios
 router.get('/select',async function (req, res) {
-  const anuncios = await pool.db().collection('anuncios').find({state:1}).toArray();
+  const anuncios = await pool.db().collection('anuncios').aggregate([
+    { $match: {state:1} },
+    { $sort:{date:1}},
+    { $project: {_id:0, id: "$_id", title:1,description:1,date:1} }
+   ]).toArray();
   res.send(JSON.stringify(anuncios));
   });
 

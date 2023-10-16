@@ -69,17 +69,14 @@ router.get('/select',async  function (req, res) {
     {
       $project: 
       {
-        _id:1,
+        _id:0,
         'id': '$_id',
         'idgra': '$_id',
         'namegra':'$name',
         'namecal':'$fromCal.name',
         'namejor': '$fromJor.name',
-        name:1,
         idcal:1,
         idjor: 1, 
-        fromCal: 1,
-        fromJor: 1,
       }
     }
    ]).toArray();

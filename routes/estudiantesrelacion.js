@@ -29,7 +29,7 @@ router.post('/insert',async function (req, res) {
 
   //  enrutamiento validar estudiante relacion
 router.post('/select',async function (req, res) {
-  const estudiantes = await pool.db().collection('estudiantesrelacion').find({numberid:req.body.numberid}).toArray();
+  const estudiantes = await pool.db().collection('estudiantesrelacion').find({idstu:new ObjectId(req.body.idstu),idgra:new ObjectId(req.body.idgra)}).toArray();
   res.send(JSON.stringify(estudiantes));
 });
 

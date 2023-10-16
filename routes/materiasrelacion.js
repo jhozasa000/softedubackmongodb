@@ -110,6 +110,9 @@ router.get('/select',async function (req, res) {
       }
     },
     {
+      $sort: {'fromGrados.name':1,'fromCalendario.name':1,'fromJornada.name':1}
+    },
+    {
       $project: {
       _id:0,
       'id': '$_id', 

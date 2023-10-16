@@ -29,7 +29,10 @@ router.post('/select',async function (req, res) {
 
 //  enrutamiento capturar calendario
 router.get('/select',async  function (req, res) {
-  const calendario = await pool.db().collection('calendario').find({state:1}).toArray();
+  const calendario = await pool.db().collection('calendario').aggregate([
+    { $match: {state:1} },
+    { $project: {_id:0, id: "$_id", name:1} }
+   ]).toArray();
   res.send(JSON.stringify(calendario));
 
 });

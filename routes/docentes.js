@@ -28,8 +28,15 @@ const upload = multer({
 
 
 /* insertar docentes */
-router.post('/insert',upload.single('files'), async function (req, res) {
+//router.post('/insert', async function (req, res) {
+  router.post('/insert',upload.single('files'), async function (req, res) {
   const data = req.body;
+
+  console.log(req.body)
+
+
+ /* console.log('req?.file  ', req?.file);*/
+  console.log('req?.file  ', req?.file?.filename??'');
 
   const datos = {
     name: data.name,
@@ -37,10 +44,12 @@ router.post('/insert',upload.single('files'), async function (req, res) {
     profession: new ObjectId(data.profession),
     telephone: data.telephone,
     address: data.address,
-    files: req?.file?.filename??'',
-    state:1
+    state:1,
+    files:req?.file?.filename??''
   }
-  const docentes = await  pool.db().collection('docentes').insertOne(datos);
+
+  
+ const docentes = await  pool.db().collection('docentes').insertOne(datos);
 
     if(!docentes){
       const info =  {
@@ -71,8 +80,25 @@ router.get('/select',async  function (req, res) {
       }
   },
   {
+    $unwind:"$fromProfession"
+  },
+  {
     $match:{
         $and:[{"state" : 1}]
+    }
+  },
+
+  {
+    $project:{
+      _id : 0,
+      "id": "$_id",
+      name:1,
+      numberid:1,
+      telephone:1,
+      address:1,
+      files:1,
+      "profession":"$fromProfession.name",
+      "idpro":"$fromProfession._id"
     }
   }
  ] ).toArray();

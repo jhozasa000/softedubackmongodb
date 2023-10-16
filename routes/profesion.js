@@ -30,7 +30,19 @@ router.post('/select', async function (req, res) {
 
 //  enrutamiento capturar profesion
 router.get('/select',async function (req, res) {
-  const profesion = await pool.db().collection('profesion').find({state:1}).toArray();
+  const profesion = await pool.db().collection('profesion').aggregate([
+    {
+      $match :{state:1}
+    },
+    {
+      $project:{
+        _id:0,
+        "id": "$_id",
+        name:1
+      }
+    }
+
+  ]).toArray();
   res.send(JSON.stringify(profesion));
 });
 

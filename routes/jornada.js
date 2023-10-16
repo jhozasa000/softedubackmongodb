@@ -23,13 +23,19 @@ router.post('/insert',async function (req, res) {
 
   //  enrutamiento validar jornada
 router.post('/select',async function (req, res) {
-  const jornada = await pool.db().collection('jornada').find({state:1,name :req.body.name}).toArray();
+  const jornada = await pool.db().collection('jornada').aggregate([
+     { $match: {state:1,name :req.body.name} },
+     { $project: {_id:0, id: "$_id", name:1} }
+    ]).toArray();
   res.send(JSON.stringify(jornada));
 });
 
 //  enrutamiento capturar jornadas
 router.get('/select',async  function (req, res) {
-  const jornada = await pool.db().collection('jornada').find({state:1}).toArray();
+  const jornada = await pool.db().collection('jornada').aggregate([
+    { $match: {state:1} },
+    { $project: {_id:0, id: "$_id", name:1} }
+   ]).toArray();
   res.send(JSON.stringify(jornada));
 });
 
