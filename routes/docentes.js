@@ -1,43 +1,13 @@
-//variable de la libreria para subir archivos
-const multer = require('multer');
 // variables de enrutamiento
 var express = require('express');
 var router = express.Router();
 //variable de la base de datos
 const pool = require('../database/dbmongo')
-//carga de varibales globales
-require('dotenv').config();
-const outputPath = process.env.URL_FILES_TEACHERS
 const ObjectId = require('mongodb').ObjectId;
 
-// funcion para redireccionar el archivo y el nombre
-const multerStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-   // cb(null, "./public/files");
-    cb(null, outputPath);
-  },
-  filename: (req, file, cb) => {
-    const ext = file.mimetype.split("/")[1];
-    cb(null, `teacherfile-${file.fieldname}-${Date.now()}.${ext}`);
-  },
-});
-
-const upload = multer({
-  storage: multerStorage,
-});
-
-
 /* insertar docentes */
-//router.post('/insert', async function (req, res) {
-  router.post('/insert',upload.single('files'), async function (req, res) {
+router.post('/insert', async function (req, res) {
   const data = req.body;
-
-  console.log(req.body)
-
-
- /* console.log('req?.file  ', req?.file);*/
-  console.log('req?.file  ', req?.file?.filename??'');
-
   const datos = {
     name: data.name,
     numberid: data.numberid,
@@ -45,13 +15,14 @@ const upload = multer({
     telephone: data.telephone,
     address: data.address,
     state:1,
-    files:req?.file?.filename??''
+    files:data.files
   }
 
-  
+  console.log('datos   ', datos  );
+
  const docentes = await  pool.db().collection('docentes').insertOne(datos);
 
-    if(!docentes){
+   if(!docentes){
       const info =  {
           error:'Validar datos ingresados'
         }
@@ -59,7 +30,7 @@ const upload = multer({
     }else{
         res.send(JSON.stringify(docentes));
     }
-  });
+});
 
   //  enrutamiento validar docente 
 router.post('/select',async  function (req, res) {
@@ -131,9 +102,8 @@ router.get('/select',async  function (req, res) {
   });
 
   //  enrutamiento editar docente
-  router.put('/edit',upload.single('files'),async function(req, res) {
+router.put('/edit',async function(req, res) {
     const data = req.body;
-    const imgNew = req?.file?.filename??data.filesbd
     const filter = {"_id": new ObjectId(data.id)};
     const updateDoc = {
       $set: {
@@ -141,8 +111,7 @@ router.get('/select',async  function (req, res) {
         "profession": new ObjectId(data.profession),
         "telephone": data.telephone,
         "address": data.address,
-        "files": imgNew
-
+        "files": data.files
       },
     };
     const docentes = await pool.db().collection('docentes').updateOne(

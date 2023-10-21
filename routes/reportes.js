@@ -4,11 +4,6 @@ var router = express.Router();
 //variable de la base de datos
 const pool = require('../database/dbmongo')
 // variable global se carga
-require('dotenv').config();
-// libreria para generar pdf
-const puppeteer = require('puppeteer');
-const outputPath = process.env.URL_FILES
-const ObjectId = require('mongodb').ObjectId;
 
 //  enrutamiento validar estudiante
 router.post('/select',async function (req, res) {
@@ -95,42 +90,6 @@ router.post('/select',async function (req, res) {
     res.send(JSON.stringify(reportes))
    
 });
-
-//  enrutamiento pasar datos para generar pdf
-router.post('/report',function(req,res){
-    const html = req.body.htmlpdf
-    exportWebsiteAsPdf(html)
-    res.send(JSON.stringify(`reporte.pdf`));
-})
-
-//  funcion que genera el pdf y lo guarda
-async function exportWebsiteAsPdf(html) {
-    // Create a browser instance
-    const browser = await puppeteer.launch({
-      headless: 'new'
-    });
-
-    // Create a new page
-    const page = await browser.newPage();
-
-    await page.setContent(html, { waitUntil: 'domcontentloaded' });
-
-    // To reflect CSS used for screens instead of print
-    await page.emulateMediaType('screen');
-
-    // Download the PDF
-    const PDF = await page.pdf({
-      path: `${outputPath}reporte.pdf`,
-      margin: { top: '100px', right: '50px', bottom: '100px', left: '50px' },
-      printBackground: true,
-      format: 'A4',
-    });
-
-    // Close the browser instance
-    await browser.close();
-
-    return PDF;
-  }
 
 
 
