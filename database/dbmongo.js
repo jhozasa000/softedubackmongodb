@@ -11,17 +11,5 @@ const client = new MongoClient(uri, {
   }
 })
 
-const validatedb = async  () => {
-    try {
-      await  client.connect()
-      console.log('se conecto');
-    } catch (error) {
-      console.log('no hay conexion');
-    }
-}
-
-
-validatedb()
-
 
 module.exports = client;
