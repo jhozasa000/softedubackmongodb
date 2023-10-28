@@ -38,7 +38,21 @@ router.post('/selectedit', async function (req, res) {
 
 //  enrutamiento capturar usuarios
 router.get('/select', async function (req, res) {
-  const login = await pool.db().collection('login').find({state:1}).toArray();
+  const login = await pool.db().collection('login').aggregate([
+    {
+      $match :{state:1}
+    },
+    {
+      $project:{
+        _id:0,
+        "id": "$_id",
+        user:1,
+        pass:1,
+        state:1
+      }
+    }
+
+  ]).toArray();
   res.send(JSON.stringify(login));
 });
 
