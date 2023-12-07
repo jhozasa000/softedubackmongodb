@@ -88,7 +88,9 @@ app.use(function(req, res, next) {
   
 	// render the error page
 	res.status(err.status || 500);
-	res.render('error');
+	res.status(200).send({
+		message: 'No existe el modulo especificado'
+	});
   });
 
 app.listen(port, () => console.log('Puerto utilizado' ,port))
