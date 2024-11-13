@@ -241,11 +241,11 @@ router.get('/loadnotescharts',async function (req, res) {
     {
       $unwind: "$fromMaterias"
     },
-    {
-      $match:{
-          $and:[{"idstu" : new ObjectId(req.body.idstu)}]
-      }
-    },
+    // {
+    //   $match:{
+    //       $and:[{"idstu" : new ObjectId(req.body.idstu)}]
+    //   }
+    // },
     {
       $project: 
       {
