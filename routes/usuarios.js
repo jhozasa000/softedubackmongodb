@@ -48,6 +48,8 @@ router.get('/select', async function (req, res) {
         "id": "$_id",
         user:1,
         pass:1,
+        role:1,
+        email:1,
         state:1
       }
     }
@@ -89,7 +91,9 @@ router.get('/select', async function (req, res) {
     const updateDoc = {
       $set: {
         "user": data.user,
-        "pass": data.pass
+        "pass": data.pass,
+        "role": data.role,
+        "email": data.email
       },
     };
 
